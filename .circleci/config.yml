@@ -24,14 +24,21 @@ jobs:
           paths:
             - .gitignore
             - package.json
+   deploy-job:
+      working_directory: ~/repo
+      docker: 
+         - image: circleci/node:12.18.2
+      steps:
+         - attach_workspace:
+            at: ~/repo
+         - heroku/deploy-via-git:
+            force: true
 
 workflows:
   heroku_deploy:
     jobs:
       - build
-      - attach_workspace:
-          at: ~/repo
-      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+      - deploy-job: # Use the pre-configured job, deploy-via-git
           requires:
             - build
           filters:
