@@ -7,12 +7,12 @@ import database from "database";
 import { schemas } from "graph";
 import resolvers from "graph/resolvers";
 import { verifyAuth } from "authentications";
-import { BIZZI_GRAPHQL_BOOLEAN } from "configs";
+import { BIZZI_GRAPHQL_BOOLEAN, BIZZI_PORT_SERVER } from "configs";
 import { IContextGraphql } from "graph/interfaces";
 
 //express initialization
 const app = express();
-const PORT = process.env.PORT_SERVER || 4000;
+const PORT = BIZZI_PORT_SERVER || 4000;
 
 const graphqlOption = (request: Request, response: Response): OptionsData => ({
   schema: schemas,
