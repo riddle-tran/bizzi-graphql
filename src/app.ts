@@ -1,14 +1,14 @@
 import "dotenv/config";
 import cors from "cors";
-import { graphqlHTTP, OptionsData } from "express-graphql";
 import express, { Request, Response } from "express";
+import { graphqlHTTP, OptionsData } from "express-graphql";
 
 import database from "database";
 import { schemas } from "graph";
 import resolvers from "graph/resolvers";
 import { verifyAuth } from "authentications";
-import { BIZZI_GRAPHQL_BOOLEAN, BIZZI_PORT_SERVER } from "configs";
 import { IContextGraphql } from "graph/interfaces";
+import { BIZZI_GRAPHQL_BOOLEAN, BIZZI_PORT_SERVER } from "configs";
 
 //express initialization
 const app = express();
