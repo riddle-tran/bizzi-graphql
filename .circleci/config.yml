@@ -19,11 +19,18 @@ jobs:
    - run:
       name: Add dist
       command: echo "\!dist/**/*" >> .gitignore
+    - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .gitignore
+            - package.json
 
 workflows:
  heroku_deploy:
   jobs:
    - build
+   - attach_workspace:
+      at: ~/repo
    - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
       requires:
        - build
