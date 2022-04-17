@@ -19,4 +19,4 @@ export const BIZZI_JWT_SECRET: string = process.env.BIZZI_JWT_SECRET || "";
 export const BIZZI_JWT_EXP: number =
   Number(process.env.BIZZI_JWT_EXP) || 86400000;
 
-export const BIZZI_PORT_SERVER: number = process.env.BIZZI_PORT_SERVER || 4000;
+export const BIZZI_PORT_SERVER: number = Number(process.env.PORT) || 4000;

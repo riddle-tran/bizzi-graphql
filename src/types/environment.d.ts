@@ -1,9 +1,9 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      PORT: number;
       BIZZI_JWT_EXP: number;
       BIZZI_JWT_SECRET: string;
-      BIZZI_PORT_SERVER: number;
       BIZZI_GRAPHQL_PATH: string;
       BIZZI_MONGOOSE_URL: string;
       BIZZI_GITHUB_ACCEPT: string;

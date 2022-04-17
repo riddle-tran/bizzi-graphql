@@ -47,6 +47,6 @@ database.on("error", (e) => {
 database.on("connected", () => {
   console.error("Connected to DB");
   app.listen(PORT, () => {
-    console.log("Graphql server now up at port 4000");
+    console.log(`Graphql server now up at port ${PORT}`);
   });
 });
