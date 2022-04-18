@@ -14,11 +14,11 @@ const schemas = buildSchema(`
     }
     type User {
         id: ID!
-        email: String!
+        email: String
         provide: String!
         userName: String!
-        avatarUrl: String!
-        displayName: String!
+        avatarUrl: String
+        displayName: String
     }
     type Users {
         users: [User]
