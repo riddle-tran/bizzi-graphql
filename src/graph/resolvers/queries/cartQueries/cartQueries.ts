@@ -19,7 +19,7 @@ const getCarts = async (
     id: cart._id,
     quantity: cart.quantity,
     userId: cart.userId ?? "userId-Todo",
-    productId: cart.productId ?? "productId-Todo",
+    productId: cart.productId ?? "productIdTodo",
   }));
   return {
     data: carts,
