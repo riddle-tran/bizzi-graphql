@@ -15,10 +15,13 @@ export type TGithubUserRequestParams = {
 export type TGithubOauthResponseData = string;
 
 export type TGithubUserResponseData = {
+  // Required
   name: string;
   login: string;
-  email: string;
   avatar_url: string;
+
+  // Optional
+  email?: string;
 };
 
 // Axios response types

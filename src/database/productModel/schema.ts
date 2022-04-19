@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
-import { IProduct } from "entities/product";
+import { IProductBase } from "entities/product";
 
-const productSchema = new Schema<IProduct>(
+const productSchema = new Schema<IProductBase>(
   {
     name: {
       type: String,
@@ -26,4 +26,4 @@ const productSchema = new Schema<IProduct>(
   }
 );
 
-export const ProductModel = model<IProduct>("Products", productSchema);
+export const ProductModel = model<IProductBase>("Products", productSchema);

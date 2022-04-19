@@ -1,1 +1,3 @@
-export { default } from "./userMutations";
+import userMutations from "./userMutations";
+
+export default { ...userMutations };

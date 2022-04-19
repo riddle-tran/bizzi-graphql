@@ -4,10 +4,7 @@ import { IUser } from "entities/user";
 
 const userSchema = new Schema<IUser>(
   {
-    email: {
-      type: String,
-      required: true,
-    },
+    // Required
     userName: {
       type: String,
       required: true,
@@ -20,9 +17,20 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+
+    // Optional
+    email: {
+      type: String,
+    },
+    role: {
+      type: String,
+      default: "user",
+    },
+    token: {
+      type: String,
+    },
     displayName: {
       type: String,
-      required: true,
     },
   },
   {

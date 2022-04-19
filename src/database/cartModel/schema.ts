@@ -1,34 +1,25 @@
 import { Schema, model } from "mongoose";
 
-import { ICart } from "entities/cart";
+import { ICartBase } from "entities/cart";
 
-const cartSchema = new Schema<ICart>(
+const cartSchema = new Schema<ICartBase>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
+    // productId: {
+    //   type: Types.ObjectId,
+    //   required: true,
+    // },
     quantity: {
       type: Number,
       required: true,
     },
-
-    price: {
-      type: Number,
-      required: true,
-    },
-
-    // Optional
-    thumbnail: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
+    // userId: {
+    //   type: Types.ObjectId,
+    //   required: true,
+    // },
   },
   {
     timestamps: true,
   }
 );
 
-export const CartModel = model<ICart>("Carts", cartSchema);
+export const CartModel = model<ICartBase>("Carts", cartSchema);

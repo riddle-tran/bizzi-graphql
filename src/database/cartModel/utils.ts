@@ -1,43 +1,41 @@
-import { ICart } from "entities/cart";
+import { ICart, ICartBase, IGetCartsRequestParams } from "entities/cart";
+
 import { CartModel } from "./schema";
 
-export const getAllCarts = async (limit: number) => {
+export const getCartsModel = async (queries: IGetCartsRequestParams) => {
+  const { limit = 1000, ...rest } = queries;
+  return await CartModel.find({ ...rest }).limit(limit);
+};
+
+export const getAllCartsModel = async (limit: number) => {
   return await CartModel.find({}).limit(limit);
 };
 
-export const getCartById = async (id: string) => {
+export const getCartByIdModel = async (id: string) => {
   return await CartModel.findById(id);
 };
 
-export const createCart = async ({
-  name,
-  price,
+export const createCartModel = async ({
+  userId,
   quantity,
-  thumbnail,
-  description,
-}: ICart) => {
+  productId,
+}: ICartBase) => {
   return await CartModel.create({
-    name,
-    price,
+    userId,
     quantity,
-    thumbnail,
-    description,
+    productId,
   });
 };
 
-export const updateCart = async (
+export const updateCartModel = async (
   id: string,
-  { name, price, thumbnail, description, quantity }: Partial<ICart>
+  { quantity }: Partial<ICart>
 ) => {
   const set: Partial<ICart> = {};
-  if (name) set.name = name;
-  if (price) set.price = price;
   if (quantity) set.quantity = quantity;
-  if (thumbnail) set.thumbnail = thumbnail;
-  if (description) set.description = description;
   return await CartModel.findByIdAndUpdate(id, set);
 };
 
-export const deleteCart = async (id: string) => {
+export const deleteCartModel = async (id: string) => {
   return await CartModel.findByIdAndDelete(id);
 };

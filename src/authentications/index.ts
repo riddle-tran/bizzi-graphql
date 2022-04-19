@@ -16,7 +16,7 @@ export const verifyAuth = async (req: Request) => {
   if (token == null) {
     throw Error("Not found token");
   }
-  const data = (await jwt.verify(token, BIZZI_JWT_SECRET)) as IUser;
+  const data = jwt.verify(token, BIZZI_JWT_SECRET) as IUser;
 
   return getUserById(data.id);
 };

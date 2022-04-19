@@ -1,13 +1,6 @@
 import { parse } from "querystring";
 
 import {
-  IUser,
-  IAddUserParams,
-  ICodeUserParams,
-  IDeleteUserParams,
-  IUpdateUserParams,
-} from "entities/user";
-import {
   BIZZI_GITHUB_ACCEPT,
   BIZZI_GITHUB_CLIENT_ID,
   BIZZI_GITHUB_CLIENT_SECRET,
@@ -17,51 +10,14 @@ import {
   TGithubOauthRequestParams,
   getGithubAccessTokenRequest,
 } from "axios/github";
+import {
+  updateUser,
+  removeTokenById,
+  createOrUpdateUser,
+} from "database/userModel/utils";
+import { IContextGraphql } from "graph/interfaces";
 import { generateAccessToken } from "authentications";
-import { createUser, createOrUpdateUser } from "database/userModel/utils";
-
-const addUser = async ({
-  email,
-  provide,
-  userName,
-  avatarUrl,
-  displayName,
-}: IAddUserParams) => {
-  const user = await createUser({
-    email,
-    provide,
-    userName,
-    avatarUrl,
-    displayName,
-  });
-  return {
-    data: { ...user, id: user._id },
-    ok: true,
-    error: "",
-  };
-};
-
-const updateUser = async ({
-  email,
-  provide,
-  userName,
-  avatarUrl,
-  displayName,
-}: IUpdateUserParams) => {
-  return {
-    data: { id: "id", email, provide, userName, avatarUrl, displayName },
-    ok: true,
-    error: "",
-  };
-};
-
-const deleteUser = async ({ id }: IDeleteUserParams) => {
-  return {
-    data: { id },
-    ok: true,
-    error: "",
-  };
-};
+import { IUser, ICodeUserParams } from "entities/user";
 
 const signIn = async ({ code }: ICodeUserParams) => {
   const params: TGithubOauthRequestParams = {
@@ -92,8 +48,10 @@ const signIn = async ({ code }: ICodeUserParams) => {
     throw Error("Something went wrong ");
   }
 
+  const id = doc._id;
+  const role = doc.role || "user";
   const user: IUser = {
-    id: doc._id,
+    id,
     email,
     userName,
     provide: "github",
@@ -103,18 +61,36 @@ const signIn = async ({ code }: ICodeUserParams) => {
 
   const token = generateAccessToken(user);
 
+  await updateUser(id, { token });
+
   return {
-    data: { token, user: { ...user } },
+    data: { token, role, user: { ...user } },
     ok: true,
     error: "",
   };
+};
 
-  return token;
+const signOut = async (
+  _: unknown,
+  { request, authentication }: IContextGraphql
+) => {
+  const user = await authentication(request);
+
+  if (!user || !user.id)
+    return {
+      ok: false,
+      error: "",
+    };
+
+  await removeTokenById(user.id);
+
+  return {
+    ok: true,
+    error: "",
+  };
 };
 
 export default {
   signIn,
-  addUser,
-  updateUser,
-  deleteUser,
+  signOut,
 };

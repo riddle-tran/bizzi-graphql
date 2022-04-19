@@ -1,4 +1,6 @@
-import userQueries from "./userQueries";
+import productQueries from "./productQueries";
+
+import cartQueries from "./cartQueries";
 
 const pong = async () => {
   return "pong";
@@ -6,5 +8,6 @@ const pong = async () => {
 
 export default {
   pong,
-  ...userQueries,
+  ...cartQueries,
+  ...productQueries,
 };
