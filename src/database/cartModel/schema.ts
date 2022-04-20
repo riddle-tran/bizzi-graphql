@@ -1,21 +1,25 @@
 import { Schema, model } from "mongoose";
 
 import { ICartBase } from "entities/cart";
+import { UserModel } from "database/userModel";
+import { ProductModel } from "database/productModel";
 
-const cartSchema = new Schema<ICartBase>(
+const cartSchema = new Schema(
   {
-    // productId: {
-    //   type: Types.ObjectId,
-    //   required: true,
-    // },
     quantity: {
       type: Number,
       required: true,
     },
-    // userId: {
-    //   type: Types.ObjectId,
-    //   required: true,
-    // },
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: ProductModel,
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: UserModel,
+      required: true,
+    },
   },
   {
     timestamps: true,

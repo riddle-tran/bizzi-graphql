@@ -1,6 +1,11 @@
 import { IContextGraphql } from "graph/interfaces";
-import { createCartModel } from "database/cartModel/utils";
-import { TCreateCartRequestParams, TCreateCartResponse } from "entities/cart";
+import { createCartModel, deleteCartModel } from "database/cartModel/utils";
+import {
+  TCreateCartResponse,
+  TDeleteCartResponse,
+  TDeleteCartRequestParams,
+  TCreateCartRequestParams,
+} from "entities/cart";
 
 const createCart = async (
   { productId, quantity }: TCreateCartRequestParams,
@@ -12,16 +17,16 @@ const createCart = async (
   }
 
   const doc = await createCartModel({
-    productId,
     quantity,
-    userId: user.id,
+    user: user.id,
+    product: productId,
   });
 
   const data: TCreateCartResponse = {
     id: doc._id,
-    productId,
     quantity,
-    userId: user.id,
+    user: user.id,
+    product: productId,
   };
 
   return {
@@ -31,4 +36,21 @@ const createCart = async (
   };
 };
 
-export default { createCart };
+const deleteCart = async (
+  { id }: TDeleteCartRequestParams,
+  { request, authentication }: IContextGraphql
+): Promise<TDeleteCartResponse> => {
+  const user = await authentication(request);
+  if (!user || !user.id) {
+    throw Error("Permission denied");
+  }
+
+  await deleteCartModel(id);
+
+  return {
+    ok: true,
+    error: "",
+  };
+};
+
+export default { createCart, deleteCart };

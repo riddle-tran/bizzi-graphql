@@ -9,6 +9,7 @@ const schemas = buildSchema(`
     type Mutation {
         signOut: SignOutResponse
         signIn(code: String!): SignInResponse
+        deleteCart(id: ID!): DeleteCartResponse
         createCart(productId: String!, quantity: Int!): CreateCartResponse
         createProduct(name: String!, price: Float!, thumbnail: String, description: String): CreateProductResponse
     }
@@ -48,13 +49,20 @@ const schemas = buildSchema(`
     
     type Cart {
         id: ID!
+        user: String!
         quantity: Int!
-        userId: String!
-        productId: String!
+        product: String!
+    }
+
+    type CartPopulate {
+        id: ID!
+        user: String!
+        quantity: Int!
+        product: Product!
     }
 
     type GetCartsResponse{
-        data: [Cart]
+        data: [CartPopulate]
         error: String
         ok: Boolean
     }
@@ -73,6 +81,11 @@ const schemas = buildSchema(`
 
     type CreateCartResponse {
         data: Cart
+        error: String
+        ok: Boolean
+    }
+
+    type DeleteCartResponse{
         error: String
         ok: Boolean
     }

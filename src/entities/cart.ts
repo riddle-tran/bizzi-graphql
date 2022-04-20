@@ -5,8 +5,8 @@ import { IProduct } from "./product";
 
 export interface ICartBase {
   quantity: number;
-  userId: IUser["id"];
-  productId: IProduct["id"];
+  user: Types.ObjectId | IUser;
+  product: Types.ObjectId | IProduct;
 }
 
 export interface ICart extends ICartBase {
@@ -15,7 +15,7 @@ export interface ICart extends ICartBase {
 
 export interface TCreateCartRequestParams {
   quantity: number;
-  productId: IProduct["id"];
+  productId: Types.ObjectId;
 }
 
 export interface TCreateCartResponse extends ICart {}
@@ -28,4 +28,13 @@ export interface IGetCartsResponse {
   ok: boolean;
   error: string;
   data: ICart[];
+}
+
+export interface TDeleteCartRequestParams {
+  id: Types.ObjectId;
+}
+
+export interface TDeleteCartResponse {
+  ok: boolean;
+  error: string;
 }
